@@ -13,20 +13,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
-
 extension AppDelegate: UNUserNotificationCenterDelegate {
 
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    guard let url = URL(string: "\(notification.request.content.userInfo["url"] ?? "")") else {
-      return
-    }
-    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    completionHandler([.banner, .sound])
   }
 
-  public func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     guard let url = URL(string: "\(response.notification.request.content.userInfo["url"] ?? "")") else {
       return
     }
-    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    UIApplication.shared.open(url)
+    completionHandler()
   }
 }
