@@ -20,7 +20,8 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
   }
 
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    guard let url = URL(string: "\(response.notification.request.content.userInfo["url"] ?? "")") else {
+    guard let urlString = response.notification.request.content.userInfo["url"] as? String,
+          let url = URL(string: urlString) else {
       return
     }
     UIApplication.shared.open(url)
